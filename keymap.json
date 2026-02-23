@@ -7,7 +7,7 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
+    "context": "Workspace || os == linux || os == windows",
     "bindings": {
       "ctrl-c": ["workspace::SendKeystrokes", "escape"], // Apply ctrl-c to Escape
     },
@@ -22,9 +22,7 @@
     "context": "VimControl && !menu",
     "bindings": {
       // Put key bindings here if you want them to work in normal & visual mode.
-
       // NOTE: Git related
-      "space g s": "git::Diff",
       "space g h b": "editor::BlameHover",
       "space g h p": "editor::ToggleSelectedDiffHunks",
       "space g h s": "git::ToggleStaged",
@@ -32,15 +30,12 @@
       "space g h r": "git::Restore",
       "space g h R": "git::RestoreFile",
       "space g h n": "editor::GoToHunk",
-
       // NOTE: Code related
       "space c a": "editor::ToggleCodeActions",
       "space c r": "editor::Rename",
       "ctrl-space": "editor::SelectLargerSyntaxNode",
-
       ">": "editor::Indent",
       "<": "editor::Outdent",
-
       "g d": "editor::GoToDefinition",
       "g r": "editor::FindAllReferences",
     },
@@ -70,6 +65,7 @@
       "-": "project_panel::SelectParent",
       "shift-j": "menu::SelectNext",
       "shift-k": "menu::SelectPrevious",
+      "space": null,
     },
   },
   {
@@ -95,9 +91,9 @@
       "space space": "file_finder::Toggle",
       "space f b": "tab_switcher::ToggleAll",
       "space g g": "git_panel::ToggleFocus", // The default git is kinda bad so you should use lazygit in terminal
+      "space g s": "git::Diff",
       "space s s": "outline::Toggle",
       "space s S": "outline_panel::ToggleFocus",
-
       // NOTE: Buffer related
       "space b d": "pane::CloseActiveItem",
       "space b o": "pane::CloseOtherItems",
