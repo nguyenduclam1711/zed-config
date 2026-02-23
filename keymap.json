@@ -1,0 +1,121 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-c": ["workspace::SendKeystrokes", "escape"], // Apply ctrl-c to Escape
+    },
+  },
+  {
+    "context": "Editor && !menu && os != macos",
+    "bindings": {
+      "ctrl-b": "workspace::ToggleLeftDock",
+    },
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      // Put key bindings here if you want them to work in normal & visual mode.
+
+      // NOTE: Git related
+      "space g s": "git::Diff",
+      "space g h b": "editor::BlameHover",
+      "space g h p": "editor::ToggleSelectedDiffHunks",
+      "space g h s": "git::ToggleStaged",
+      "space g h S": "git::StageFile",
+      "space g h r": "git::Restore",
+      "space g h R": "git::RestoreFile",
+      "space g h n": "editor::GoToHunk",
+
+      // NOTE: Code related
+      "space c a": "editor::ToggleCodeActions",
+      "space c r": "editor::Rename",
+      "ctrl-space": "editor::SelectLargerSyntaxNode",
+
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
+
+      "g d": "editor::GoToDefinition",
+      "g r": "editor::FindAllReferences",
+    },
+  },
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "shift-y": ["workspace::SendKeystrokes", "y $"], // Use neovim's yank behavior: yank to end of line.
+    },
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {},
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "d": "project_panel::Delete",
+      "r": "project_panel::Rename",
+      "y": "project_panel::Copy",
+      "x": "project_panel::Cut",
+      "p": "project_panel::Paste",
+      "h": "project_panel::CollapseSelectedEntry",
+      "l": "project_panel::ExpandSelectedEntry",
+      "-": "project_panel::SelectParent",
+      "shift-j": "menu::SelectNext",
+      "shift-k": "menu::SelectPrevious",
+    },
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      // NOTE: Search keymaps
+      "ctrl-/ f": "project_search::ToggleFilters",
+      "ctrl-/ c": "search::ToggleCaseSensitive",
+      "ctrl-/ w": "search::ToggleWholeWord",
+      "ctrl-/ r": "search::ToggleReplace",
+      "ctrl-/ x": "search::ToggleRegex",
+      "ctrl-/ q": "buffer_search::Dismiss",
+    },
+  },
+  {
+    // NOTE: Global keys for moving around and focus panes (exclude Terminal)
+    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu)) && !Terminal",
+    "bindings": {
+      // NOTE: Focusing / Deploy panes
+      "space e": "project_panel::ToggleFocus",
+      "space x X": "diagnostics::Deploy",
+      "space s g": "pane::DeploySearch",
+      "space space": "file_finder::Toggle",
+      "space f b": "tab_switcher::ToggleAll",
+      "space g g": "git_panel::ToggleFocus", // The default git is kinda bad so you should use lazygit in terminal
+      "space s s": "outline::Toggle",
+      "space s S": "outline_panel::ToggleFocus",
+
+      // NOTE: Buffer related
+      "space b d": "pane::CloseActiveItem",
+      "space b o": "pane::CloseOtherItems",
+      "space b b": "pane::AlternateFile",
+      "space b y": "workspace::CopyRelativePath",
+      "H": "pane::ActivatePreviousItem",
+      "L": "pane::ActivateNextItem",
+    },
+  },
+  {
+    // NOTE: Global keys for moving around and focus panes
+    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || Terminal",
+    "bindings": {
+      // NOTE: Moving around
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+    },
+  },
+]
