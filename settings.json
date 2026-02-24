@@ -52,4 +52,11 @@
   },
   "vertical_scroll_margin": 4,
   "scroll_beyond_last_line": "vertical_scroll_margin",
+  "lsp": {
+    "biome": {
+      "settings": {
+        "require_config_file": true,
+      },
+    },
+  },
 }
