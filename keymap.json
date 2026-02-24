@@ -15,7 +15,7 @@
   },
   {
     // Re-binding this for overide above bindings
-    "context": "vim_mode == insert",
+    "context": "vim_mode == insert || vim_mode == visual",
     "bindings": {
       "ctrl-c": "vim::NormalBefore",
       "escape": "vim::NormalBefore",
