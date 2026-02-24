@@ -14,9 +14,45 @@
     },
   },
   {
+    // Re-binding this for overide above bindings
+    "context": "vim_mode == insert",
+    "bindings": {
+      "ctrl-c": "vim::NormalBefore",
+      "escape": "vim::NormalBefore",
+    },
+  },
+  {
     "context": "Workspace || os == linux || os == windows",
     "bindings": {
       "ctrl-c": ["workspace::SendKeystrokes", "escape"], // Apply ctrl-c to Escape
+    },
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "alt-w": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "cmd-w": ["pane::CloseActiveItem", { "close_pinned": false }],
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-w": "workspace::CloseActiveDock",
+      "cmd-w": "workspace::CloseActiveDock",
+    },
+  },
+  {
+    "context": "SettingsWindow",
+    "bindings": {
+      "alt-w": "workspace::CloseWindow",
+      "cmd-w": "workspace::CloseWindow",
+    },
+  },
+  {
+    "context": "RulesLibrary",
+    "bindings": {
+      "alt-w": "workspace::CloseWindow",
+      "cmd-w": "workspace::CloseWindow",
     },
   },
   {
