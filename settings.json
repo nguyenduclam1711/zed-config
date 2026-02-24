@@ -10,6 +10,9 @@
   "vim": {
     "use_smartcase_find": true,
   },
+  "scrollbar": {
+    "show": "always",
+  },
   "restore_on_startup": "empty_tab",
   "git_panel": {
     "tree_view": true,
@@ -47,4 +50,6 @@
     "colored-zed-icons-theme": true,
     "comment": true,
   },
+  "vertical_scroll_margin": 4,
+  "scroll_beyond_last_line": "vertical_scroll_margin",
 }
