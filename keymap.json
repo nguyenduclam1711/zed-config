@@ -39,6 +39,12 @@
     "bindings": {
       "alt-w": "workspace::CloseActiveDock",
       "cmd-w": "workspace::CloseActiveDock",
+      "alt-b": "workspace::ToggleLeftDock",
+      "cmd-b": "workspace::ToggleLeftDock",
+      "alt-r": "workspace::ToggleRightDock",
+      "cmd-r": "workspace::ToggleRightDock",
+      "alt-j": "workspace::ToggleBottomDock",
+      "cmd-j": "workspace::ToggleBottomDock",
     },
   },
   {
