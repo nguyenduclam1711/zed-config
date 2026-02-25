@@ -149,6 +149,7 @@
       "ctrl-/ r": "search::ToggleReplace",
       "ctrl-/ x": "search::ToggleRegex",
       "ctrl-/ q": "buffer_search::Dismiss",
+      "ctrl-/ s": "search::ToggleSelection",
     },
   },
   {
