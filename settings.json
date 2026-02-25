@@ -52,13 +52,6 @@
   },
   "vertical_scroll_margin": 4,
   "scroll_beyond_last_line": "vertical_scroll_margin",
-  "lsp": {
-    "biome": {
-      "settings": {
-        "require_config_file": true,
-      },
-    },
-  },
   "show_whitespaces": "trailing",
   "search": {
     "regex": true,
@@ -69,6 +62,13 @@
     "show_diagnostics": "all",
   },
   "formatter": "auto",
+  "lsp": {
+    "biome": {
+      "settings": {
+        "require_config_file": true,
+      },
+    },
+  },
   "languages": {
     "JavaScript": {
       "formatter": "language_server",
@@ -88,12 +88,6 @@
         "!vscode-css-language-server",
         "...",
       ],
-    },
-    "JSON": {
-      "formatter": "language_server",
-    },
-    "JSONC": {
-      "formatter": "language_server",
     },
   },
 }
