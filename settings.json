@@ -61,6 +61,7 @@
     "file_icons": true,
     "show_diagnostics": "all",
   },
+  "use_smartcase_search": true,
   "formatter": "auto",
   "lsp": {
     "biome": {
