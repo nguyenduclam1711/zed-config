@@ -23,7 +23,7 @@
     },
   },
   {
-    "context": "Workspace || os == linux || os == windows",
+    "context": "(Workspace || os == linux || os == windows) && !Terminal",
     "bindings": {
       "ctrl-c": ["workspace::SendKeystrokes", "escape"], // Apply ctrl-c to Escape
     },
