@@ -105,10 +105,15 @@
       "space c a": "editor::ToggleCodeActions",
       "space c r": "editor::Rename",
       "ctrl-space": "editor::SelectLargerSyntaxNode",
-      ">": "editor::Indent",
-      "<": "editor::Outdent",
       "g d": "editor::GoToDefinition",
       "g r": "editor::FindAllReferences",
+    },
+  },
+  {
+    "context": "VimControl && !menu && vim_mode != operator",
+    "bindings": {
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
     },
   },
   {
