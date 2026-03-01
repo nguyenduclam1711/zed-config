@@ -138,6 +138,10 @@
       "shift-j": "menu::SelectNext",
       "shift-k": "menu::SelectPrevious",
       "space": null,
+      "enter": [
+        "action::Sequence",
+        ["project_panel::Open", "workspace::ToggleLeftDock"],
+      ],
     },
   },
   {
