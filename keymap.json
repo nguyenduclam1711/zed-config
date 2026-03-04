@@ -15,6 +15,14 @@
     },
   },
   {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-c": ["terminal::SendKeystroke", "ctrl-c"],
+      "ctrl-n": ["terminal::SendKeystroke", "ctrl-n"],
+      "ctrl-p": ["terminal::SendKeystroke", "ctrl-p"],
+    },
+  },
+  {
     // Re-binding this for overide above bindings
     "context": "vim_mode == insert || vim_mode == visual",
     "bindings": {
