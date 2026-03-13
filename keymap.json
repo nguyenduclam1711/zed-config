@@ -158,6 +158,15 @@
     },
   },
   {
+    "context": "GitPanel && menu",
+    "bindings": {
+      "enter": [
+        "action::Sequence",
+        ["menu::Confirm", "workspace::ToggleLeftDock"],
+      ],
+    },
+  },
+  {
     "context": "Pane",
     "bindings": {
       // NOTE: Search keymaps
@@ -202,6 +211,31 @@
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-j": "workspace::ActivatePaneDown",
       "ctrl-k": "workspace::ActivatePaneUp",
+    },
+  },
+  {
+    "context": "(Pane && buffer_search_deployed) > Editor",
+    "bindings": {
+      "ctrl-k": "search::FocusSearch",
+    },
+  },
+  {
+    "context": "ProjectSearchBar > Editor",
+    "bindings": {
+      "ctrl-j": "project_search::ToggleFocus",
+    },
+  },
+  {
+    "context": "Editor && multibuffer",
+    "bindings": {
+      "ctrl-k": "search::FocusSearch",
+    },
+  },
+  {
+    "context": "(Pane && buffer_search_deployed) > BufferSearchBar > Editor",
+    "bindings": {
+      "ctrl-j": "editor::ToggleFocus",
+      "ctrl-k": "menu::Cancel",
     },
   },
 ]
