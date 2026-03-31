@@ -13,10 +13,10 @@
     "default_model": {
       "provider": "google",
       "model": "gemini-3-flash-preview",
-      "enable_thinking": false
+      "enable_thinking": false,
     },
     "favorite_models": [],
-    "model_parameters": []
+    "model_parameters": [],
   },
   "vim": {
     "use_smartcase_find": true,
@@ -40,8 +40,8 @@
   "base_keymap": "VSCode",
   "icon_theme": {
     "mode": "system",
-    "light": "Zed (Default)",
-    "dark": "Colored Zed Icons Theme Dark",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Frappé",
   },
   "ui_font_size": 15,
   "buffer_font_size": 15,
@@ -49,8 +49,8 @@
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "theme": {
     "mode": "system",
-    "light": "One Light",
-    "dark": "One Dark",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Frappé",
   },
   "relative_line_numbers": "enabled",
   "auto_install_extensions": {
@@ -60,6 +60,7 @@
     "git-firefly": true,
     "colored-zed-icons-theme": true,
     "comment": true,
+    "catppuccin": true,
   },
   "vertical_scroll_margin": 4,
   "scroll_beyond_last_line": "vertical_scroll_margin",
@@ -79,16 +80,16 @@
       "settings": {
         "typescript": {
           "updateImportsOnFileMove": {
-            "enabled": "always"
-          }
+            "enabled": "always",
+          },
         },
         "javascript": {
           "updateImportsOnFileMove": {
-            "enabled": "always"
-          }
-        }
+            "enabled": "always",
+          },
+        },
       },
-      "enable_lsp_tasks": true
+      "enable_lsp_tasks": true,
     },
     "biome": {
       "settings": {
