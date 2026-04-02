@@ -83,7 +83,7 @@
     },
   },
   {
-    "context": "Editor && (vim_mode == insert || mode == single_line)",
+    "context": "(Editor && (vim_mode == insert || mode == single_line)) || (BufferSearchBar > Editor) || (ProjectSearchBar > Editor)",
     "bindings": {
       // Only delete word when editing
       "ctrl-w": [
