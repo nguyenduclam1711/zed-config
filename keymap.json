@@ -23,7 +23,7 @@
     },
   },
   {
-    // Re-binding this for overide above bindings
+    // NOTE: Re-binding this for overide above bindings
     "context": "vim_mode == insert || vim_mode == visual",
     "bindings": {
       "ctrl-c": "vim::NormalBefore",
@@ -33,14 +33,7 @@
   {
     "context": "(Workspace || os == linux || os == windows) && !Terminal",
     "bindings": {
-      "ctrl-c": ["workspace::SendKeystrokes", "escape"], // Apply ctrl-c to Escape
-    },
-  },
-  {
-    "context": "Pane",
-    "bindings": {
-      "alt-w": ["pane::CloseActiveItem", { "close_pinned": false }],
-      "cmd-w": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "ctrl-c": ["workspace::SendKeystrokes", "escape"],
     },
   },
   {
@@ -61,14 +54,14 @@
     },
   },
   {
-    "context": "SettingsWindow",
+    "context": "Pane",
     "bindings": {
-      "alt-w": "workspace::CloseWindow",
-      "cmd-w": "workspace::CloseWindow",
+      "alt-w": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "cmd-w": ["pane::CloseActiveItem", { "close_pinned": false }],
     },
   },
   {
-    "context": "RulesLibrary",
+    "context": "SettingsWindow || RulesLibrary",
     "bindings": {
       "alt-w": "workspace::CloseWindow",
       "cmd-w": "workspace::CloseWindow",
@@ -77,7 +70,7 @@
   {
     "context": "Editor",
     "bindings": {
-      "ctrl-w": null, // Remove default binding
+      "ctrl-w": null,
       "ctrl-shift-v": "editor::Paste",
       "cmd-v": "editor::Paste",
     },
@@ -85,7 +78,6 @@
   {
     "context": "(Editor && (vim_mode == insert || mode == single_line)) || (BufferSearchBar > Editor) || (ProjectSearchBar > Editor)",
     "bindings": {
-      // Only delete word when editing
       "ctrl-w": [
         "editor::DeleteToPreviousWordStart",
         { "ignore_newlines": false, "ignore_brackets": false },
@@ -101,7 +93,6 @@
   {
     "context": "VimControl && !menu",
     "bindings": {
-      // Put key bindings here if you want them to work in normal & visual mode.
       // NOTE: Git related
       "space g h b": "editor::BlameHover",
       "space g h p": "editor::ToggleSelectedDiffHunks",
@@ -127,12 +118,8 @@
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
-      "shift-y": ["workspace::SendKeystrokes", "y $"], // Use neovim's yank behavior: yank to end of line.
+      "shift-y": ["workspace::SendKeystrokes", "y $"],
     },
-  },
-  {
-    "context": "vim_mode == insert",
-    "bindings": {},
   },
   {
     "context": "ProjectPanel && not_editing",
@@ -189,7 +176,7 @@
       "space s g": "pane::DeploySearch",
       "space space": "file_finder::Toggle",
       "space f b": "tab_switcher::ToggleAll",
-      "space g g": "git_panel::ToggleFocus", // The default git is kinda bad so you should use lazygit in terminal
+      "space g g": "git_panel::ToggleFocus",
       "space g s": "git::Diff",
       "space s s": "outline::Toggle",
       "space s S": "outline_panel::ToggleFocus",
