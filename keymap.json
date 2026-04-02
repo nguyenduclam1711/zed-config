@@ -122,6 +122,42 @@
     },
   },
   {
+    "context": "Pane",
+    "bindings": {
+      // NOTE: Search keymaps
+      "ctrl-/ f": "project_search::ToggleFilters",
+      "ctrl-/ c": "search::ToggleCaseSensitive",
+      "ctrl-/ w": "search::ToggleWholeWord",
+      "ctrl-/ r": "search::ToggleReplace",
+      "ctrl-/ x": "search::ToggleRegex",
+      "ctrl-/ q": "buffer_search::Dismiss",
+      "ctrl-/ s": "search::ToggleSelection",
+    },
+  },
+  {
+    // NOTE: Global keys for moving around and focus panes (exclude Terminal)
+    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem) && !Terminal",
+    "bindings": {
+      // NOTE: Focusing / Deploy panes
+      "space e": "project_panel::ToggleFocus",
+      "space x X": "diagnostics::Deploy",
+      "space s g": "pane::DeploySearch",
+      "space space": "file_finder::Toggle",
+      "space f b": "tab_switcher::ToggleAll",
+      "space g g": "git_panel::ToggleFocus",
+      "space g s": "git::Diff",
+      "space s s": "outline::Toggle",
+      "space s S": "outline_panel::ToggleFocus",
+      // NOTE: Buffer related
+      "space b d": "pane::CloseActiveItem",
+      "space b o": "pane::CloseOtherItems",
+      "space b b": ["workspace::SendKeystrokes", "space f b enter"],
+      "space b y": "workspace::CopyRelativePath",
+      "H": "pane::ActivatePreviousItem",
+      "L": "pane::ActivateNextItem",
+    },
+  },
+  {
     "context": "ProjectPanel && not_editing",
     "bindings": {
       "a": "project_panel::NewFile",
@@ -142,51 +178,10 @@
         "action::Sequence",
         ["project_panel::Open", "workspace::ToggleLeftDock"],
       ],
-    },
-  },
-  {
-    "context": "GitPanel && menu",
-    "bindings": {
-      "enter": [
+      "space e": [
         "action::Sequence",
-        ["menu::Confirm", "workspace::ToggleLeftDock"],
+        ["project_panel::ToggleFocus", "workspace::ToggleLeftDock"],
       ],
-    },
-  },
-  {
-    "context": "Pane",
-    "bindings": {
-      // NOTE: Search keymaps
-      "ctrl-/ f": "project_search::ToggleFilters",
-      "ctrl-/ c": "search::ToggleCaseSensitive",
-      "ctrl-/ w": "search::ToggleWholeWord",
-      "ctrl-/ r": "search::ToggleReplace",
-      "ctrl-/ x": "search::ToggleRegex",
-      "ctrl-/ q": "buffer_search::Dismiss",
-      "ctrl-/ s": "search::ToggleSelection",
-    },
-  },
-  {
-    // NOTE: Global keys for moving around and focus panes (exclude Terminal)
-    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView) && !Terminal",
-    "bindings": {
-      // NOTE: Focusing / Deploy panes
-      "space e": "project_panel::ToggleFocus",
-      "space x X": "diagnostics::Deploy",
-      "space s g": "pane::DeploySearch",
-      "space space": "file_finder::Toggle",
-      "space f b": "tab_switcher::ToggleAll",
-      "space g g": "git_panel::ToggleFocus",
-      "space g s": "git::Diff",
-      "space s s": "outline::Toggle",
-      "space s S": "outline_panel::ToggleFocus",
-      // NOTE: Buffer related
-      "space b d": "pane::CloseActiveItem",
-      "space b o": "pane::CloseOtherItems",
-      "space b b": "pane::AlternateFile",
-      "space b y": "workspace::CopyRelativePath",
-      "H": "pane::ActivatePreviousItem",
-      "L": "pane::ActivateNextItem",
     },
   },
   {
@@ -198,6 +193,19 @@
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-j": "workspace::ActivatePaneDown",
       "ctrl-k": "workspace::ActivatePaneUp",
+    },
+  },
+  {
+    "context": "GitPanel && menu",
+    "bindings": {
+      "enter": [
+        "action::Sequence",
+        ["menu::Confirm", "workspace::ToggleLeftDock"],
+      ],
+      "space g g": [
+        "action::Sequence",
+        ["git_panel::ToggleFocus", "workspace::ToggleLeftDock"],
+      ],
     },
   },
   {
