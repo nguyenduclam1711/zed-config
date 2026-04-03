@@ -7,9 +7,19 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry"
+    }
+  },
   "show_edit_predictions": false,
   "disable_ai": false,
   "agent": {
+    "show_turn_stats": true,
+    "tool_permissions": {
+      "default": "allow",
+      "tools": {},
+    },
     "default_model": {
       "provider": "google",
       "model": "gemini-3-flash-preview",
