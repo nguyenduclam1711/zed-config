@@ -186,7 +186,7 @@
   },
   {
     // NOTE: Global keys for moving around and focus panes
-    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || Terminal",
+    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || Terminal",
     "bindings": {
       // NOTE: Moving around
       "ctrl-h": "workspace::ActivatePaneLeft",

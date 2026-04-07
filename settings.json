@@ -7,14 +7,24 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "context_servers": {
+    "mcp-server-context7": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "context7_api_key": "ctx7sk-f904fcfd-7e50-4af4-b335-0054d3ef6915",
+      },
+    },
+  },
   "agent_servers": {
     "github-copilot-cli": {
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "show_edit_predictions": false,
   "disable_ai": false,
   "agent": {
+    "single_file_review": true,
     "show_turn_stats": true,
     "tool_permissions": {
       "default": "allow",
