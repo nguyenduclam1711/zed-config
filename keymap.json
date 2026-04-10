@@ -136,7 +136,7 @@
   },
   {
     // NOTE: Global keys for moving around and focus panes (exclude Terminal)
-    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem) && !Terminal",
+    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph) && !Terminal",
     "bindings": {
       // NOTE: Focusing / Deploy panes
       "space e": "project_panel::ToggleFocus",
@@ -189,7 +189,7 @@
   },
   {
     // NOTE: Global keys for moving around and focus panes
-    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || Terminal",
+    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph || Terminal",
     "bindings": {
       // NOTE: Moving around
       "ctrl-h": "workspace::ActivatePaneLeft",

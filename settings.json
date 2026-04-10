@@ -60,7 +60,7 @@
   "base_keymap": "VSCode",
   "icon_theme": {
     "mode": "system",
-    "light": "Catppuccin Latte",
+    "light": "Colored Zed Icons Theme Light",
     "dark": "Catppuccin Frappé",
   },
   "ui_font_size": 15,
