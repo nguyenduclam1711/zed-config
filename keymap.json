@@ -155,6 +155,9 @@
       "space b y": "workspace::CopyRelativePath",
       "H": "pane::ActivatePreviousItem",
       "L": "pane::ActivateNextItem",
+      // NOTE: Mark
+      "space H": "vim::PushMark",
+      "space h": "vim::ToggleMarksView",
     },
   },
   {
