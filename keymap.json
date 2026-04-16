@@ -151,7 +151,7 @@
       // NOTE: Buffer related
       "space b d": "pane::CloseActiveItem",
       "space b o": "pane::CloseOtherItems",
-      "space b b": ["workspace::SendKeystrokes", "space f b enter"],
+      "space b b": ["workspace::SendKeystrokes", "space space ctrl-n enter"],
       "space b y": "workspace::CopyRelativePath",
       "H": "pane::ActivatePreviousItem",
       "L": "pane::ActivateNextItem",
