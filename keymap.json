@@ -1,11 +1,133 @@
-// Zed keymap
+// ============================================================
+// ZED KEYMAP — LazyVim-faithful configuration
+// Stack: flash.nvim | oil.nvim | harpoon | snacks.nvim | bufferline
 //
-// For information on binding keys, see the Zed
-// documentation: https://zed.dev/docs/key-bindings
-//
-// To see the default key bindings run `zed: open default keymap`
-// from the command palette.
+// Philosophy:
+//   - ctrl-h/j/k/l = move between ALL panes/panels/docks universally
+//   - Space leader mirrors LazyVim groups exactly
+//   - Flash → Zed Sneak (s/S in normal/visual)
+//   - Oil → Project Panel (closest equivalent)
+//   - Harpoon → Zed Marks (space-H to add, space-h to view)
+//   - Snacks picker → file_finder / project_search / outline
+//   - Bufferline H/L → pane::ActivatePreviousItem / Next
+// ============================================================
+
 [
+  // ──────────────────────────────────────────────────────────
+  // SECTION 1: ctrl-hjkl — universal pane navigation
+  // Applies everywhere: Editor, Terminal, Panels, Git, Outline...
+  // This is the #1 thing that must feel right.
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph || Terminal",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 2: Terminal — pass through ctrl-hjkl UNLESS moving panes
+  // In Neovim, ctrl-hjkl inside terminal moves windows.
+  // In Zed terminal, we forward ctrl-c/n/p to shell, but keep ctrl-hjkl
+  // for pane navigation (same behavior as your current keymap).
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-c": ["terminal::SendKeystroke", "ctrl-c"],
+      "ctrl-n": ["terminal::SendKeystroke", "ctrl-n"],
+      "ctrl-p": ["terminal::SendKeystroke", "ctrl-p"],
+      // ctrl-hjkl NOT forwarded — they stay as pane navigation (see Section 1)
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 3: Buffer search bar — ctrl-j/k to move between search ↔ editor
+  // Mirrors: in Neovim, you can jump between search input and results
+  // ──────────────────────────────────────────────────────────
+  {
+    // When buffer search bar is open and SEARCH INPUT is focused:
+    // ctrl-j → focus editor (go to result), ctrl-k → cancel search
+    "context": "(Pane && buffer_search_deployed) > BufferSearchBar > Editor",
+    "bindings": {
+      "ctrl-j": "editor::ToggleFocus",
+      "ctrl-k": "menu::Cancel",
+    },
+  },
+  {
+    // When buffer search bar is open and EDITOR is focused:
+    // ctrl-k → jump focus back to search bar
+    "context": "(Pane && buffer_search_deployed) > Editor",
+    "bindings": {
+      "ctrl-k": "search::FocusSearch",
+    },
+  },
+  {
+    // Project search: ctrl-j goes from search input → results panel
+    "context": "ProjectSearchBar > Editor",
+    "bindings": {
+      "ctrl-j": "project_search::ToggleFocus",
+    },
+  },
+  {
+    // Multibuffer (search results): ctrl-k goes back to search input
+    "context": "Editor && multibuffer",
+    "bindings": {
+      "ctrl-k": "search::FocusSearch",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 4: Git Panel — ctrl-j/k to move between commit editor ↔ file changes
+  // Mirrors: in Lazygit/Neovim git split workflow, j/k navigate panels
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "GitPanel && menu",
+    "bindings": {
+      "ctrl-j": "git_panel::FocusEditor",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "h": "git_panel::CollapseSelectedEntry",
+      "l": "git_panel::ExpandSelectedEntry",
+      "enter": [
+        "action::Sequence",
+        ["menu::Confirm", "workspace::ToggleLeftDock"],
+      ],
+      "space g g": [
+        "action::Sequence",
+        ["git_panel::ToggleFocus", "workspace::ToggleLeftDock"],
+      ],
+    },
+  },
+
+  // When focused on the COMMIT EDITOR (context: GitPanel > Editor):
+  // ctrl-k → move back up to file changes list
+  // ctrl-j → move down to main editor pane
+  {
+    "context": "GitPanel > Editor",
+    "bindings": {
+      "ctrl-k": "git_panel::FocusChanges",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 5: Escape / Cancel — mirrors Neovim's <Esc> behavior
+  // In insert/visual vim mode: Esc → NormalBefore (go to normal mode)
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "vim_mode == insert || vim_mode == visual",
+    "bindings": {
+      "ctrl-c": "vim::NormalBefore",
+      "escape": "vim::NormalBefore",
+    },
+  },
   {
     "context": "!Terminal",
     "use_key_equivalents": true,
@@ -15,34 +137,27 @@
     },
   },
   {
-    "context": "Terminal",
-    "bindings": {
-      "ctrl-c": ["terminal::SendKeystroke", "ctrl-c"],
-      "ctrl-n": ["terminal::SendKeystroke", "ctrl-n"],
-      "ctrl-p": ["terminal::SendKeystroke", "ctrl-p"],
-    },
-  },
-  {
-    // NOTE: Re-binding this for overide above bindings
-    "context": "vim_mode == insert || vim_mode == visual",
-    "bindings": {
-      "ctrl-c": "vim::NormalBefore",
-      "escape": "vim::NormalBefore",
-    },
-  },
-  {
+    // On Linux/Windows: ctrl-c in workspace = escape (to cancel things like command palette)
     "context": "(Workspace || os == linux || os == windows) && !Terminal",
     "bindings": {
       "ctrl-c": ["workspace::SendKeystrokes", "escape"],
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 6: Workspace-level bindings
+  // Command palette, file finder, dock toggles
+  // ──────────────────────────────────────────────────────────
   {
     "context": "Workspace",
     "bindings": {
+      // Command palette — alt-shift-p or cmd-shift-p
       "alt-shift-p": "command_palette::Toggle",
       "cmd-shift-p": "command_palette::Toggle",
+      // File finder — space-space (also bound in VimControl below), alt-p
       "alt-p": "file_finder::Toggle",
       "cmd-p": "file_finder::Toggle",
+      // Dock toggles
       "alt-w": "workspace::CloseActiveDock",
       "cmd-w": "workspace::CloseActiveDock",
       "alt-b": "workspace::ToggleLeftDock",
@@ -53,11 +168,24 @@
       "cmd-j": "workspace::ToggleBottomDock",
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 7: Pane bindings
+  // Tab close, search modifiers
+  // ──────────────────────────────────────────────────────────
   {
     "context": "Pane",
     "bindings": {
       "alt-w": ["pane::CloseActiveItem", { "close_pinned": false }],
       "cmd-w": ["pane::CloseActiveItem", { "close_pinned": false }],
+      // Search modifiers — mirrors your ctrl-/ prefix
+      "ctrl-/ f": "project_search::ToggleFilters",
+      "ctrl-/ c": "search::ToggleCaseSensitive",
+      "ctrl-/ w": "search::ToggleWholeWord",
+      "ctrl-/ r": "search::ToggleReplace",
+      "ctrl-/ x": "search::ToggleRegex",
+      "ctrl-/ q": "buffer_search::Dismiss",
+      "ctrl-/ s": "search::ToggleSelection",
     },
   },
   {
@@ -67,15 +195,24 @@
       "cmd-w": "workspace::CloseWindow",
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 8: Editor bindings (non-vim-mode-specific)
+  // ──────────────────────────────────────────────────────────
   {
     "context": "Editor",
     "bindings": {
+      // Disable ctrl-w default (it would delete word, conflicts with pane nav intent)
       "ctrl-w": null,
+      // Paste shortcuts
       "ctrl-shift-v": "editor::Paste",
       "cmd-v": "editor::Paste",
+      // ctrl-s to save (like your neovim <C-S>)
+      "ctrl-s": "workspace::Save",
     },
   },
   {
+    // ctrl-w deletes previous word ONLY in insert mode / search bars
     "context": "(Editor && (vim_mode == insert || mode == single_line)) || (BufferSearchBar > Editor) || (ProjectSearchBar > Editor)",
     "bindings": {
       "ctrl-w": [
@@ -90,24 +227,115 @@
       "ctrl-b": "workspace::ToggleLeftDock",
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 9: Vim Normal mode specifics
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      // shift-Y = yank to end of line (LazyVim default)
+      "shift-y": ["workspace::SendKeystrokes", "y $"],
+
+      // G goes to end then centers (your neovim: G = Gzz)
+      // Note: Zed doesn't have zz in normal vim keybindings natively as a sendkeys target easily,
+      // but we can approximate:
+      "shift-g": ["workspace::SendKeystrokes", "shift-g z z"],
+
+      // ctrl-d / ctrl-u scroll and center (your neovim: <C-D>zz, <C-U>zz)
+      "ctrl-d": ["workspace::SendKeystrokes", "ctrl-d z z"],
+      "ctrl-u": ["workspace::SendKeystrokes", "ctrl-u z z"],
+
+      // n/N search results stay centered (your neovim: n = Nn[v:searchforward].'zv')
+      // Approximated: after jumping, recenter
+      "n": ["workspace::SendKeystrokes", "n z z"],
+      "shift-n": ["workspace::SendKeystrokes", "shift-n z z"],
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 10: Visual mode — indent keeps selection (your neovim: < = <gv, > = >gv)
+  // Also: move lines with alt-j/k in visual
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      // Indent and keep visual selection
+      ">": ["workspace::SendKeystrokes", "> g v"],
+      "<": ["workspace::SendKeystrokes", "< g v"],
+      // Flash Treesitter (your S in visual = Flash Treesitter)
+      // Zed: PushSneak is the closest, but for treesitter search use SendKeystrokes
+      // Note: Zed doesn't have a direct flash-treesitter equivalent.
+      // Sneak is the best available motion:
+      "s": "vim::PushSneak",
+      "shift-s": "vim::PushAddSurrounds",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 11: Flash.nvim → Zed Sneak
+  // Your neovim: s = Flash, S = Flash Treesitter, f/t/F/T enhanced by flash
+  // Zed: vim::PushSneak is the equivalent of leap/flash 2-char jump
+  // f/t/F/T work natively in Zed's vim mode (no config needed)
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      // s = flash/sneak jump (replaces vim substitute, mirrors your flash.nvim s binding)
+      "s": "vim::PushSneak",
+      "shift-s": "vim::PushSneakBackward",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 12: VimControl — core vim bindings for normal + visual + operator
+  // ──────────────────────────────────────────────────────────
   {
     "context": "VimControl && !menu",
     "bindings": {
-      // NOTE: Git related
-      "space g h b": "editor::BlameHover",
-      "space g h p": "editor::ToggleSelectedDiffHunks",
-      "space g h s": "git::ToggleStaged",
-      "space g h r": "git::Restore",
-      "space g h R": "git::RestoreFile",
-      "space g h n": "editor::GoToHunk",
-      // NOTE: Code related
-      "space c a": "editor::ToggleCodeActions",
-      "space c r": "editor::Rename",
+      // ── Git hunk navigation (mirrors gitsigns.nvim) ──
+      "space g h b": "editor::BlameHover", // git blame current line
+      "space g h p": "editor::ToggleSelectedDiffHunks", // preview hunk
+      "space g h s": "git::ToggleStaged", // stage hunk
+      "space g h r": "git::Restore", // restore/reset hunk
+      "space g h R": "git::RestoreFile", // restore entire file
+      "space g h n": "editor::GoToHunk", // next hunk
+      "space g h N": "editor::GoToPreviousHunk", // prev hunk
+      // Hunk navigation with ] [ (mirrors your ]c / [c from gitsigns)
+      "] c": "editor::GoToHunk",
+      "[ c": "editor::GoToPreviousHunk",
+
+      // ── LSP / Code actions (mirrors LazyVim <space>c* and g*)
+      "space c a": "editor::ToggleCodeActions", // code actions (gra in nvim)
+      "space c r": "editor::Rename", // rename symbol (grn in nvim)
+      "space c d": "editor::GoToDeclaration", // line diagnostics → declaration
+      "space c f": "editor::Format", // format buffer (space-cf)
+      "g d": "editor::GoToDefinition", // go to definition
+      "g D": "editor::GoToDeclaration", // go to declaration
+      "g y": "editor::GoToTypeDefinition", // go to type definition (grt in nvim)
+      "g I": "editor::GoToImplementation", // go to implementation (gri in nvim)
+      "g r": "editor::FindAllReferences", // find all references (grr in nvim)
+      "g h": "editor::Hover", // show hover/docs (show inline error)
+      "g .": "editor::ToggleCodeActions", // code actions via g.
+
+      // ── Diagnostics (mirrors ]d [d ]e [e from LazyVim) ──
+      // Correct action names: GoToDiagnostic (next) / GoToPrevDiagnostic (prev)
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPreviousDiagnostic",
+      "] e": "editor::GoToDiagnostic", // next error
+      "[ e": "editor::GoToPreviousDiagnostic", // prev error
+
+      // ── Treesitter syntax node selection (ctrl-space in your nvim) ──
       "ctrl-space": "editor::SelectLargerSyntaxNode",
-      "g d": "editor::GoToDefinition",
-      "g r": "editor::FindAllReferences",
+      "[ x": "editor::SelectSmallerSyntaxNode",
+
+      // ── Indent/outdent in normal/visual ──
+      ">": "editor::Indent",
+      "<": "editor::Outdent",
     },
   },
+
+  // VimControl — not in operator mode (these conflict with d>, c< etc)
   {
     "context": "VimControl && !menu && vim_mode != operator",
     "bindings": {
@@ -115,125 +343,257 @@
       "<": "editor::Outdent",
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 13: Space-leader — global navigation bindings
+  // Covers: VimControl, EmptyPane, Terminal, panels, etc.
+  // This is your main LazyVim <Space> leader mapping.
+  // ──────────────────────────────────────────────────────────
   {
-    "context": "vim_mode == normal && !menu",
-    "bindings": {
-      "shift-y": ["workspace::SendKeystrokes", "y $"],
-    },
-  },
-  {
-    "context": "Pane",
-    "bindings": {
-      // NOTE: Search keymaps
-      "ctrl-/ f": "project_search::ToggleFilters",
-      "ctrl-/ c": "search::ToggleCaseSensitive",
-      "ctrl-/ w": "search::ToggleWholeWord",
-      "ctrl-/ r": "search::ToggleReplace",
-      "ctrl-/ x": "search::ToggleRegex",
-      "ctrl-/ q": "buffer_search::Dismiss",
-      "ctrl-/ s": "search::ToggleSelection",
-    },
-  },
-  {
-    // NOTE: Global keys for moving around and focus panes (exclude Terminal)
     "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph) && !Terminal",
     "bindings": {
-      // NOTE: Focusing / Deploy panes
-      "space e": "project_panel::ToggleFocus",
-      "space x X": "diagnostics::Deploy",
-      "space s g": "pane::DeploySearch",
-      "space space": "file_finder::Toggle",
-      "space f b": "tab_switcher::ToggleAll",
-      "space g g": "git_panel::ToggleFocus",
-      "space g s": "git::Diff",
-      "space s s": "outline::Toggle",
-      "space s S": "outline_panel::ToggleFocus",
-      // NOTE: Buffer related
-      "space b d": "pane::CloseActiveItem",
-      "space b o": "pane::CloseOtherItems",
-      "space b b": ["workspace::SendKeystrokes", "space space ctrl-n enter"],
-      "space b y": "workspace::CopyRelativePath",
-      "H": "pane::ActivatePreviousItem",
-      "L": "pane::ActivateNextItem",
-      // NOTE: Mark
-      "space H": "vim::PushMark",
-      "space h": "vim::ToggleMarksView",
+      // ── File finder / Pickers (mirrors snacks.nvim pickers) ──
+      "space space": "file_finder::Toggle", // <space><space> = Find Files
+      "space ,": "tab_switcher::ToggleAll", // <space>, = Buffers picker
+      "space /": "pane::DeploySearch", // <space>/ = Grep (project search)
+      "space :": "command_palette::Toggle", // <space>: = Command History → palette
+
+      // ── Buffers (mirrors LazyVim <space>b*) ──
+      "space b d": "pane::CloseActiveItem", // delete buffer
+      "space b D": ["pane::CloseActiveItem", { "close_pinned": true }],
+      "space b o": "pane::CloseOtherItems", // close other buffers
+      "space b b": ["workspace::SendKeystrokes", "ctrl-tab enter"], // switch to previous buffer (like :b# / <C-^>)
+      "space b y": "workspace::CopyRelativePath", // copy relative path
+      "space b n": "workspace::NewFile", // new file (space-fn in LazyVim)
+      "space f n": "workspace::NewFile", // <space>fn = New File
+
+      // ── Find/Files (mirrors LazyVim <space>f*) ──
+      "space f f": "file_finder::Toggle", // Find Files (root dir)
+      "space f F": "file_finder::Toggle", // Find Files (cwd) — same in Zed
+      "space f r": "file_finder::Toggle", // Recent files — use file finder
+      "space f b": "tab_switcher::ToggleAll", // Buffers
+      "space f c": "zed::OpenSettings", // Find Config File → open settings
+
+      // ── Search (mirrors LazyVim <space>s*) ──
+      "space s g": "pane::DeploySearch", // Grep (root dir)
+      "space s G": "pane::DeploySearch", // Grep (cwd) — same in Zed
+      "space s s": "outline::Toggle", // Document symbols (outline)
+      "space s S": "outline_panel::ToggleFocus", // Workspace symbols (outline panel)
+      "space s d": "diagnostics::Deploy", // Buffer diagnostics
+      "space s D": "diagnostics::Deploy", // All diagnostics
+      "space s r": "editor::ToggleCodeActions", // Search and Replace → code actions
+      "space s w": "pane::DeploySearch", // Search word under cursor
+
+      // ── Panels / Explorer (mirrors LazyVim <space>e, <space>fe) ──
+      // oil.nvim → Zed Project Panel
+      "space e": "project_panel::ToggleFocus", // <space>e = Oil open → project panel
+      "space f e": "project_panel::ToggleFocus", // Explorer (root)
+      "space f E": "project_panel::ToggleFocus", // Explorer (cwd)
+
+      // ── Git (mirrors LazyVim <space>g*) ──
+      "space g g": "git_panel::ToggleFocus", // Lazygit → git panel
+      "space g s": "git::Diff", // Git Status / Diff
+      "space g d": "git::Diff", // Git Diff (hunks)
+      "space g b": "editor::BlameHover", // Git Blame Line
+      "space g l": "git_panel::ToggleFocus", // Git Log → git panel
+      "space g f": "git_panel::ToggleFocus", // Git File History → git panel
+
+      // ── Diagnostics / Trouble (mirrors LazyVim <space>x*) ──
+      "space x x": "diagnostics::Deploy", // Diagnostics (all)
+      "space x X": "diagnostics::Deploy", // Buffer Diagnostics
+      "space x d": "diagnostics::Deploy", // Deploy diagnostics
+
+      // ── Code (mirrors LazyVim <space>c*) ──
+      "space c d": "editor::Hover", // Line Diagnostics (hover shows it)
+
+      // ── Window splits (mirrors LazyVim <space>| and <space>-) ──
+      "space |": ["workspace::SendKeystrokes", "ctrl-w v"], // Split right (vsplit)
+      "space -": ["workspace::SendKeystrokes", "ctrl-w s"], // Split below (split)
+      "space w d": "pane::CloseActiveItem", // Delete/close window
+      "space w m": "workspace::ToggleZoom", // Maximize/zoom window
+
+      // ── Tab management (mirrors LazyVim <space><Tab>*) ──
+      // Zed doesn't have tabs in the same way; using pane item navigation
+      "space tab tab": "pane::ActivateNextItem",
+      "space tab [": "pane::ActivatePreviousItem",
+      "space tab ]": "pane::ActivateNextItem",
+      "space tab d": "pane::CloseActiveItem",
+
+      // ── Harpoon → Zed Marks (space-H = add mark, space-h = view marks) ──
+      "space shift-h": "vim::PushMark", // Add to harpoon → push mark
+      "space h": "vim::ToggleMarksView", // Harpoon quick menu → marks view
+      // space 1-9 = harpoon file 1-9 — no direct equivalent in Zed marks,
+      // use tab switcher instead or pane activation
+      // Closest approximation: activate pane by index (only works for panes)
+
+      // ── Buffer/pane cycling (mirrors bufferline H/L) ──
+      "H": "pane::ActivatePreviousItem", // Prev buffer (BufferLineCyclePrev)
+      "L": "pane::ActivateNextItem", // Next buffer (BufferLineCycleNext)
+      "] b": "pane::ActivateNextItem", // ]b = next buffer
+      "[ b": "pane::ActivatePreviousItem", // [b = prev buffer
+
+      // ── Toggles (mirrors LazyVim <space>u*) ──
+      "space u l": "editor::ToggleLineNumbers", // Toggle Line Numbers
+      "space u w": "editor::ToggleSoftWrap", // Toggle Wrap
+      "space u r": "editor::ToggleRelativeLineNumbers", // Toggle Relative Number (space-uL)
+      "space u shift-l": "editor::ToggleRelativeLineNumbers",
+      "space u d": "editor::ToggleDiagnostics", // Toggle Diagnostics (space-ud)
+      "space u h": "editor::ToggleInlayHints", // Toggle Inlay Hints
+      "space u z": "workspace::ToggleZoom", // Toggle Zen/Zoom Mode
+      "space u shift-z": "workspace::ToggleZoom",
+
+      // ── Misc ──
+      "space q q": "zed::Quit",
+      // Note: notification_panel::ToggleFocus does not exist in Zed — no action available
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 14: Project Panel (oil.nvim equivalent)
+  // oil.nvim keys mapped to Zed's project panel
+  // ──────────────────────────────────────────────────────────
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
-      "a": "project_panel::NewFile",
-      "A": "project_panel::NewDirectory",
-      "d": "project_panel::Delete",
-      "r": "project_panel::Rename",
-      "y": "project_panel::Copy",
-      "x": "project_panel::Cut",
-      "p": "project_panel::Paste",
-      "h": "project_panel::CollapseSelectedEntry",
-      "l": "project_panel::ExpandSelectedEntry",
-      "-": "project_panel::SelectParent",
-      "C": "project_panel::CollapseAllEntries",
+      // oil.nvim navigation
+      "h": "project_panel::CollapseSelectedEntry", // go up/collapse (oil: -)
+      "l": "project_panel::ExpandSelectedEntry", // expand/open
+      "-": "project_panel::SelectParent", // oil: - = parent dir
+      "j": "menu::SelectNext",
+      "k": "menu::SelectPrevious",
       "shift-j": "menu::SelectNext",
       "shift-k": "menu::SelectPrevious",
-      "space": null,
+      "ctrl-[": "menu::Cancel",
+
+      // oil.nvim file operations
+      "a": "project_panel::NewFile", // new file (oil: create)
+      "shift-a": "project_panel::NewDirectory", // new directory
+      "d": "project_panel::Delete", // delete
+      "r": "project_panel::Rename", // rename (oil: r also refreshes, but rename is more useful)
+      "y": "project_panel::Copy", // copy
+      "x": "project_panel::Cut", // cut
+      "p": "project_panel::Paste", // paste
+      "shift-c": "project_panel::CollapseAllEntries", // collapse all (oil: no direct, C for all)
+
+      // Open and close panel (mirror oil's <C-C> = close)
+      "ctrl-c": [
+        "action::Sequence",
+        ["project_panel::ToggleFocus", "workspace::ToggleLeftDock"],
+      ],
+      "escape": [
+        "action::Sequence",
+        ["project_panel::ToggleFocus", "workspace::ToggleLeftDock"],
+      ],
       "enter": [
         "action::Sequence",
         ["project_panel::Open", "workspace::ToggleLeftDock"],
       ],
+      // space-e in project panel = close panel (like oil's ctrl-c = close)
       "space e": [
         "action::Sequence",
         ["project_panel::ToggleFocus", "workspace::ToggleLeftDock"],
       ],
+
+      // Disable space so leader bindings don't conflict inside panel
+      "space": null,
     },
   },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 15: Outline Panel navigation
+  // ──────────────────────────────────────────────────────────
+  // When focused on the SEARCH INPUT inside OutlinePanel:
+  // ctrl-j/k -> move selection in the list while staying in search
+  // ctrl-h/l -> move to other panes entirely
   {
-    // NOTE: Global keys for moving around and focus panes
-    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph || Terminal",
+    "context": "OutlinePanel && menu && editing > Editor",
     "bindings": {
-      // NOTE: Moving around
+      "ctrl-j": "menu::Cancel",
+      "ctrl-k": "editor::SelectAll",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-j": "workspace::ActivatePaneDown",
-      "ctrl-k": "workspace::ActivatePaneUp",
     },
   },
+
+  // When focused on the ITEM LIST inside OutlinePanel:
+  // ctrl-j/k -> move between items
+  // ctrl-h/l -> move to other panes
+  // h/l      -> collapse/expand tree nodes
   {
-    "context": "GitPanel && menu",
+    "context": "OutlinePanel && menu && not_editing",
     "bindings": {
-      "enter": [
-        "action::Sequence",
-        ["menu::Confirm", "workspace::ToggleLeftDock"],
-      ],
-      "space g g": [
-        "action::Sequence",
-        ["git_panel::ToggleFocus", "workspace::ToggleLeftDock"],
-      ],
-    },
-  },
-  {
-    "context": "(Pane && buffer_search_deployed) > Editor",
-    "bindings": {
-      "ctrl-k": "search::FocusSearch",
-    },
-  },
-  {
-    "context": "ProjectSearchBar > Editor",
-    "bindings": {
-      "ctrl-j": "project_search::ToggleFocus",
-    },
-  },
-  {
-    "context": "Editor && multibuffer",
-    "bindings": {
-      "ctrl-k": "search::FocusSearch",
-    },
-  },
-  {
-    "context": "(Pane && buffer_search_deployed) > BufferSearchBar > Editor",
-    "bindings": {
-      "ctrl-j": "editor::ToggleFocus",
+      "ctrl-j": "menu::Cancel",
       "ctrl-k": "menu::Cancel",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "h": "outline_panel::CollapseSelectedEntry",
+      "l": "outline_panel::ExpandSelectedEntry",
+      "enter": "outline_panel::OpenSelectedEntry",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 16: AnyBrackets / AnyQuotes text objects
+  // Mirrors mini.ai behavior from your LazyVim setup
+  // Use: ciq = change inside quotes, cib = change inside brackets
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
+    "bindings": {
+      // AnyBrackets/AnyQuotes (traditional vim behavior — like mini.ai)
+      "q": "vim::AnyQuotes",
+      "b": "vim::AnyBrackets",
+      // MiniBrackets/MiniQuotes (mini.ai behavior with tree-sitter)
+      "shift-q": "vim::MiniQuotes",
+      "shift-b": "vim::MiniBrackets",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 17: Subword motion (camelCase navigation)
+  // Your neovim likely uses this via mini.ai or similar
+  // ──────────────────────────────────────────────────────────
+  // NOTE: Uncomment if you want w/b/e to work on subwords (camelCase, snake_case)
+  // This changes w/b/e globally in normal/visual which may feel surprising at first.
+  // {
+  //   "context": "VimControl && !menu && vim_mode != operator",
+  //   "bindings": {
+  //     "w": "vim::NextSubwordStart",
+  //     "b": "vim::PreviousSubwordStart",
+  //     "e": "vim::NextSubwordEnd",
+  //     "g e": "vim::PreviousSubwordEnd"
+  //   }
+  // },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 18: Move lines up/down (mirrors alt-j/k in your neovim)
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp",
+    },
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // SECTION 19: Window resize (mirrors your C-Arrow keys)
+  // Action namespace is vim::ResizePaneUp/Down/Left/Right
+  // ──────────────────────────────────────────────────────────
+  {
+    "context": "VimControl || Terminal || ProjectPanel || GitPanel || OutlinePanel",
+    "bindings": {
+      "ctrl-up": "vim::ResizePaneUp",
+      "ctrl-down": "vim::ResizePaneDown",
+      "ctrl-left": "vim::ResizePaneLeft",
+      "ctrl-right": "vim::ResizePaneRight",
     },
   },
 ]

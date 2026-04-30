@@ -7,6 +7,15 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
   "diff_view_style": "unified",
   "context_servers": {
     "mcp-server-context7": {
@@ -25,6 +34,7 @@
   "show_edit_predictions": false,
   "disable_ai": false,
   "agent": {
+    "dock": "right",
     "single_file_review": true,
     "show_turn_stats": true,
     "tool_permissions": {
@@ -47,6 +57,7 @@
   },
   "restore_on_startup": "launchpad",
   "git_panel": {
+    "dock": "left",
     "tree_view": true,
   },
   "soft_wrap": "editor_width",
