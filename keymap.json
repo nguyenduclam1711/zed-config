@@ -328,10 +328,6 @@
       // ── Treesitter syntax node selection (ctrl-space in your nvim) ──
       "ctrl-space": "editor::SelectLargerSyntaxNode",
       "[ x": "editor::SelectSmallerSyntaxNode",
-
-      // ── Indent/outdent in normal/visual ──
-      ">": "editor::Indent",
-      "<": "editor::Outdent",
     },
   },
 
