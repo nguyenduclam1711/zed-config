@@ -95,7 +95,11 @@
       "l": "git_panel::ExpandSelectedEntry",
       "enter": [
         "action::Sequence",
-        ["menu::Confirm", "workspace::ToggleLeftDock"],
+        [
+          "menu::SecondaryConfirm",
+          "git_panel::ToggleFocus",
+          "workspace::ToggleLeftDock",
+        ],
       ],
       "space g g": [
         "action::Sequence",
