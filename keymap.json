@@ -93,6 +93,7 @@
       "ctrl-l": "workspace::ActivatePaneRight",
       "h": "git_panel::CollapseSelectedEntry",
       "l": "git_panel::ExpandSelectedEntry",
+      "d": "git::RestoreFile",
       "enter": [
         "action::Sequence",
         [
