@@ -19,7 +19,7 @@
   // This is the #1 thing that must feel right.
   // ──────────────────────────────────────────────────────────
   {
-    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph || Terminal",
+    "context": "(VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph || Diagnostics || Terminal",
     "bindings": {
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
@@ -351,7 +351,7 @@
   // This is your main LazyVim <Space> leader mapping.
   // ──────────────────────────────────────────────────────────
   {
-    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph) && !Terminal",
+    "context": "((VimControl && !menu) || EmptyPane || SharedScreen || MarkdownPreview || SvgPreview || ImageViewer || KeyContextView || (OutlinePanel && not_editing) || (ProjectPanel && not_editing) || (GitPanel && menu) || FileHistoryView || InvalidItem || GitGraph || Diagnostics) && !Terminal",
     "bindings": {
       // ── File finder / Pickers (mirrors snacks.nvim pickers) ──
       "space space": "file_finder::Toggle", // <space><space> = Find Files
