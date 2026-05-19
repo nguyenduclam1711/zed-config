@@ -547,6 +547,13 @@
       // MiniBrackets/MiniQuotes (mini.ai behavior with tree-sitter)
       "shift-q": "vim::MiniQuotes",
       "shift-b": "vim::MiniBrackets",
+      "[": [
+        "vim::SquareBrackets",
+        {
+          "opening": true,
+        },
+      ],
+      "]": "vim::SquareBrackets",
     },
   },
 
