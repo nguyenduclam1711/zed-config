@@ -268,27 +268,19 @@
       // Indent and keep visual selection
       ">": ["workspace::SendKeystrokes", "> g v"],
       "<": ["workspace::SendKeystrokes", "< g v"],
-      // Flash Treesitter (your S in visual = Flash Treesitter)
-      // Zed: PushSneak is the closest, but for treesitter search use SendKeystrokes
-      // Note: Zed doesn't have a direct flash-treesitter equivalent.
-      // Sneak is the best available motion:
-      "s": "vim::PushSneak",
-      "shift-s": "vim::PushAddSurrounds",
+      "s": "vim::HelixJumpToWord",
     },
   },
 
   // ──────────────────────────────────────────────────────────
   // SECTION 11: Flash.nvim → Zed Sneak
   // Your neovim: s = Flash, S = Flash Treesitter, f/t/F/T enhanced by flash
-  // Zed: vim::PushSneak is the equivalent of leap/flash 2-char jump
-  // f/t/F/T work natively in Zed's vim mode (no config needed)
   // ──────────────────────────────────────────────────────────
   {
     "context": "vim_mode == normal",
     "bindings": {
       // s = flash/sneak jump (replaces vim substitute, mirrors your flash.nvim s binding)
-      "s": "vim::PushSneak",
-      "shift-s": "vim::PushSneakBackward",
+      "s": "vim::HelixJumpToWord",
     },
   },
 
