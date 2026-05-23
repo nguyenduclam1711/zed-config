@@ -393,7 +393,7 @@
 
       // ── Diagnostics / Trouble (mirrors LazyVim <space>x*) ──
       "space x x": "diagnostics::Deploy", // Diagnostics (all)
-      "space x X": "diagnostics::Deploy", // Buffer Diagnostics
+      "space x X": "diagnostics::DeployCurrentFile", // Buffer Diagnostics
       "space x d": "diagnostics::Deploy", // Deploy diagnostics
 
       // ── Code (mirrors LazyVim <space>c*) ──
