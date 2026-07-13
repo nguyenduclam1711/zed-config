@@ -96,11 +96,7 @@
       "d": "git::RestoreFile",
       "enter": [
         "action::Sequence",
-        [
-          "menu::SecondaryConfirm",
-          "git_panel::ToggleFocus",
-          "workspace::ToggleLeftDock",
-        ],
+        ["git::ViewFile", "workspace::ToggleLeftDock"],
       ],
       "space g g": [
         "action::Sequence",
