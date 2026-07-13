@@ -8,6 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "format_on_save": "on",
+  "cli_default_open_behavior": "existing_window",
   "project_panel": {
     "dock": "left",
   },
@@ -73,11 +74,11 @@
   "base_keymap": "VSCode",
   "icon_theme": {
     "mode": "system",
-    "light": "Colored Zed Icons Theme Light",
+    "light": "VSCode Icons for Zed (Light Official Icons)",
     "dark": "Catppuccin Frappé",
   },
-  "ui_font_size": 15,
-  "buffer_font_size": 15,
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
   "ui_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_family": "JetBrainsMono Nerd Font",
   "theme": {
@@ -129,6 +130,13 @@
     "biome": {
       "settings": {
         "require_config_file": true,
+      },
+    },
+    "roslyn": {
+      "settings": {
+        "csharp|navigation": {
+          "dotnet_navigate_to_decompiled_sources": "openFiles",
+        },
       },
     },
   },
