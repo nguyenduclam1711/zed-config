@@ -134,8 +134,23 @@
     },
     "roslyn": {
       "settings": {
-        "csharp|navigation": {
-          "dotnet_navigate_to_decompiled_sources": "openFiles",
+        // Unity regenerates 80+ .csproj files; analyze open files only so the
+        // server stays responsive instead of churning on the whole solution.
+        "csharp|background_analysis": {
+          "dotnet_analyzer_diagnostics_scope": "openFiles",
+          "dotnet_compiler_diagnostics_scope": "openFiles",
+        },
+        // Unimported-namespace completions are very handy in Unity (UnityEngine,
+        // UnityEngine.UI, etc. get auto-suggested with a using added).
+        "csharp|completion": {
+          "dotnet_show_completion_items_from_unimported_namespaces": true,
+          "dotnet_trigger_completion_in_argument_lists": true,
+        },
+        // CodeLens off keeps the editor clean while learning; flip to true if you
+        // want inline reference/test counts.
+        "csharp|code_lens": {
+          "dotnet_enable_references_code_lens": false,
+          "dotnet_enable_tests_code_lens": false,
         },
       },
     },
@@ -160,5 +175,23 @@
         "...",
       ],
     },
+    "CSharp": {
+      "language_servers": ["roslyn", "!csharp-ls", "!omnisharp", "..."],
+      "format_on_save": "on",
+      "tab_size": 4,
+    },
   },
+  "file_scan_exclusions": [
+    // NOTE: Exlucde these for Unity proj
+    // "**/Library",
+    // "**/Temp",
+    // "**/Obj",
+    // "**/obj",
+    // "**/Build",
+    // "**/Builds",
+    // "**/Logs",
+    // "**/UserSettings",
+    // "**/MemoryCaptures",
+    // "**/Recordings",
+  ],
 }
